@@ -49,13 +49,13 @@
 //     });
 // });
 
-// describe('Search 6', () => {
-//     it('Search string with non-existing tag and non-tag word', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.get('#searchBar').type('[NonExistingTag] nonexistingword{enter}');
-//         cy.contains('No Questions Found');
-//     });
-// });
+describe('Search 6', () => {
+    it('Search string with non-existing tag and non-tag word', () => {
+        cy.visit('http://localhost:3000');
+        cy.get('#searchBar').type('[NonExistingTag] nonexistingword{enter}');
+        cy.contains('No Questions Found');
+    });
+});
 
 // describe('Search 7', () => {
 //     it('Search string with case-insensitive matching', () => {

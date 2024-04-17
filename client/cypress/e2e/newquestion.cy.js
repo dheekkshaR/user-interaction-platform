@@ -39,21 +39,21 @@
 //     })
 // })
 
-// describe('New Question Form with many tags 1', () => {
-//     it('Ask a Question creates and displays in All Questions with necessary tags', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Ask a Question').click();
-//         cy.get('#formTitleInput').type('Test Question 1');
-//         cy.get('#formTextInput').type('Test Question 1 Text');
-//         cy.get('#formTagInput').type('javascript t1 t2');
-//         cy.get('#formUsernameInput').type('joym');
-//         cy.contains('Post Question').click();
-//         cy.contains('Fake Stack Overflow');
-//         cy.contains('javascript');
-//         cy.contains('t1');
-//         cy.contains('t2');
-//     })
-// })
+describe('New Question Form with many tags 1', () => {
+    it('Ask a Question creates and displays in All Questions with necessary tags', () => {
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question 1');
+        cy.get('#formTextInput').type('Test Question 1 Text');
+        cy.get('#formTagInput').type('javascript t1 t2');
+        cy.get('#formUsernameInput').type('joym');
+        cy.contains('Post Question').click();
+        cy.contains('Fake Stack Overflow');
+        cy.contains('javascript');
+        cy.contains('t1');
+        cy.contains('t2');
+    })
+})
 
 // describe('New Question Form with many tags 2', () => {
 //     it('Ask a Question creates and displays in All Questions with necessary tags', () => {
@@ -71,68 +71,68 @@
 //     })
 // })
 
-// describe('New Question Form Error Empty Title', () => {
-//     it('Ask a Question with empty title shows error', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Ask a Question').click();
-//         cy.get('#formTextInput').type('Test Question 1 Text');
-//         cy.get('#formTagInput').type('javascript');
-//         cy.get('#formUsernameInput').type('joym');
-//         cy.contains('Post Question').click();
-//         cy.contains('Title cannot be empty');
-//     })
-// })
+describe('New Question Form Error Empty Title', () => {
+    it('Ask a Question with empty title shows error', () => {
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#formTextInput').type('Test Question 1 Text');
+        cy.get('#formTagInput').type('javascript');
+        cy.get('#formUsernameInput').type('joym');
+        cy.contains('Post Question').click();
+        cy.contains('Title cannot be empty');
+    })
+})
 
-// describe('New Question Form Error Long Title', () => {
-//     it('Ask a Question with long title shows error', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Ask a Question').click();
-//         cy.get('#formTitleInput').type('Test Question 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789');
-//         cy.get('#formTextInput').type('Test Question 1 Text');
-//         cy.get('#formTagInput').type('javascript');
-//         cy.get('#formUsernameInput').type('joym');
-//         cy.contains('Post Question').click();
-//         cy.contains('Title cannot be more than 100 characters');
-//     })
-// });
+describe('New Question Form Error Long Title', () => {
+    it('Ask a Question with long title shows error', () => {
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789');
+        cy.get('#formTextInput').type('Test Question 1 Text');
+        cy.get('#formTagInput').type('javascript');
+        cy.get('#formUsernameInput').type('joym');
+        cy.contains('Post Question').click();
+        cy.contains('Title cannot be more than 100 characters');
+    })
+});
 
-// describe('New Question Form Error Empty Text', () => {
-//     it('Ask a Question with empty text shows error', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Ask a Question').click();
-//         cy.get('#formTitleInput').type('Test Question 1');
-//         cy.get('#formTagInput').type('javascript');
-//         cy.get('#formUsernameInput').type('joym');
-//         cy.contains('Post Question').click();
-//         cy.contains('Question text cannot be empty');
-//     })
-// });
+describe('New Question Form Error Empty Text', () => {
+    it('Ask a Question with empty text shows error', () => {
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question 1');
+        cy.get('#formTagInput').type('javascript');
+        cy.get('#formUsernameInput').type('joym');
+        cy.contains('Post Question').click();
+        cy.contains('Question text cannot be empty');
+    })
+});
 
-// describe('New Question Form Error Extra Tags', () => {
-//     it('Ask a Question with more than 5 tags shows error', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Ask a Question').click();
-//         cy.get('#formTitleInput').type('Test Question 1');
-//         cy.get('#formTextInput').type('Test Question 1 Text');
-//         cy.get('#formTagInput').type('t1 t2 t3 t4 t5 t6');
-//         cy.get('#formUsernameInput').type('joym');
-//         cy.contains('Post Question').click();
-//         cy.contains('Cannot have more than 5 tags');
-//     })
-// });
+describe('New Question Form Error Extra Tags', () => {
+    it('Ask a Question with more than 5 tags shows error', () => {
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question 1');
+        cy.get('#formTextInput').type('Test Question 1 Text');
+        cy.get('#formTagInput').type('t1 t2 t3 t4 t5 t6');
+        cy.get('#formUsernameInput').type('joym');
+        cy.contains('Post Question').click();
+        cy.contains('Cannot have more than 5 tags');
+    })
+});
 
-// describe('New Question Form Error Long New Tag', () => {
-//     it('Ask a Question with a long new tag', () => {
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Ask a Question').click();
-//         cy.get('#formTitleInput').type('Test Question 1');
-//         cy.get('#formTextInput').type('Test Question 1 Text');
-//         cy.get('#formTagInput').type('t1 t2 t3t4t5t6t7t8t9t3t4t5t6t7t8t9');
-//         cy.get('#formUsernameInput').type('joym');
-//         cy.contains('Post Question').click();
-//         cy.contains('New tag length cannot be more than 20');
-//     })
-// });
+describe('New Question Form Error Long New Tag', () => {
+    it('Ask a Question with a long new tag', () => {
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#formTitleInput').type('Test Question 1');
+        cy.get('#formTextInput').type('Test Question 1 Text');
+        cy.get('#formTagInput').type('t1 t2 t3t4t5t6t7t8t9t3t4t5t6t7t8t9');
+        cy.get('#formUsernameInput').type('joym');
+        cy.contains('Post Question').click();
+        cy.contains('New tag length cannot be more than 20');
+    })
+});
 
 // describe('create a new question with a new and an old tag and the question should appear in both through old tag and new tag', () => {
 //     it('create a new question with a new tag and finds the question through tag', () => {
