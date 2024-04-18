@@ -143,5 +143,21 @@ const filterQuestionsBySearch = (qlist, search) => {
     });  
 }
 
+const filterQuestionsByFlagged = (qlist) => {
+    if (!qlist || qlist.length === 0) {
+        return []; // Return empty array if qlist is empty
+    }
+    return qlist.filter((q) => q.flagged > 0);
+};
 
-module.exports = { addTag, getQuestionsByOrder, filterQuestionsBySearch };
+const filterQuestionsByUser = (qlist, userId) => {
+    if (!qlist || qlist.length === 0 || !userId) {
+        return []; // Return empty array if qlist is empty or userId is not provided
+    }
+
+    return qlist.filter((q) => q.asked_by._id == userId);
+};
+
+
+
+module.exports = { addTag, getQuestionsByOrder, filterQuestionsBySearch, filterQuestionsByFlagged, filterQuestionsByUser };

@@ -3,7 +3,7 @@ const Question = require("../models/questions");
 const Answer = require("../models/answers");
 const User = require("../models/users");
 // const Tag = require("../models/tags");
-const { addTag, getQuestionsByOrder, filterQuestionsBySearch } = require('../utils/question');
+const { addTag, getQuestionsByOrder, filterQuestionsBySearch, filterQuestionsByFlagged, filterQuestionsByUser } = require('../utils/question');
 
 const router = express.Router();
 
@@ -18,12 +18,22 @@ const getQuestionsByFilter = async (req, res) => {
             // Handle both search and order
             let orderDone = await getQuestionsByOrder(order);
 
-            questions = await filterQuestionsBySearch(orderDone,search);
+            if (search=="flagged"){
+                questions = await filterQuestionsByFlagged(orderDone);
+            }
+            else{
+                questions = await filterQuestionsBySearch(orderDone,search);
+            }
             // console.log("Search done:  -----"+questions);
         } else if (search) {
             // Handle only search
             let orderDone = await getQuestionsByOrder("newest");
-            questions = await filterQuestionsBySearch(orderDone,search);
+            if (search=="flagged"){
+                questions = await filterQuestionsByFlagged(orderDone);
+            }
+            else{
+                questions = await filterQuestionsBySearch(orderDone,search);
+            }
         } else if (order) {
             // Handle only order
             questions = await getQuestionsByOrder(order);
@@ -31,6 +41,24 @@ const getQuestionsByFilter = async (req, res) => {
             // Handle none of these
             questions = await getQuestionsByOrder(); // Or any other logic to get all questions
         }
+
+        res.json(questions);
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+// To get Questions by Filter
+const getQuestionsByUser = async (req, res) => {
+    //res.json(['Complete the function']);
+    try {
+        const { author } = req.params;
+        console.log(author);
+
+        let questions;
+        let orderDone = await getQuestionsByOrder();
+
+        questions = await filterQuestionsByUser(orderDone, author);
 
         res.json(questions);
     } catch (error) {
@@ -189,6 +217,7 @@ router.post("/upvoteQuestion", upvoteQuestion);
 router.post("/downvoteQuestion", downvoteQuestion);
 // add appropriate HTTP verbs and their endpoints to the router
 router.get("/getQuestion", getQuestionsByFilter);
+router.get("/getQuestionsByUser/:author", getQuestionsByUser);
 router.get("/getQuestionById/:qid", getQuestionById); 
 router.post("/addQuestion", addQuestion);
 
