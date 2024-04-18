@@ -7,6 +7,7 @@ import AnswerPage from "./answerPage";
 import NewQuestion from "./newQuestion";
 import NewAnswer from "./newAnswer";
 import Profile from "./profilePage/profilePage";
+import AdminPage from "./adminPage/adminPage";
 
 const Main = ({ search = "", title, setQuesitonPage, user }) => {
     const [page, setPage] = useState("home");
@@ -44,6 +45,9 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
 
     const viewProfile =() => {
         setPage("profilePage");
+    }
+    const viewAdminOptions=() => {
+        setPage("adminPage");
     }
 
     const getQuestionPage = (order = "newest", search = "") => {
@@ -107,8 +111,14 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
                  />;
             break;
         }
+        case "adminPage": {
+            selected = "a";
+            content = <AdminPage user={user}
+                 />;
+            break;
+        }
         default:
-            selected = "m";
+            selected = "q";
             content = getQuestionPage();
             break;
     }
@@ -120,6 +130,8 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
                 handleQuestions={handleQuestions}
                 handleTags={handleTags}
                 handleProfile={viewProfile}
+                handleAdmin={viewAdminOptions}
+                user={user}
             />
             <div id="right_main" className="right_main">
                 {content}

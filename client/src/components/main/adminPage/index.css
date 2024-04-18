@@ -1,0 +1,32 @@
+.bold_title {
+    font-size: 24px;
+    font-weight: 800;
+
+    margin-left: 10px;
+}
+
+.space_between {
+    display: flex;
+    justify-content: space-between;
+}
+.form_postBtn {
+    background: #3090e2;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.admin_container {
+    padding: 20px; /* Add padding to the container */
+}
+
+label {
+    padding: 20px; /* Add margin between labels and select boxes */
+}
+
+select {
+    margin: 20px; /* Add margin between select boxes */
+}

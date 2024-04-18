@@ -71,9 +71,59 @@ const loginUser = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        // Find all users and project only the username and typeOfUser fields
+        const users = await User.find({}, { username: 1, typeOfUser: 1 });
+
+        if (!users) {
+            return res.status(404).json({ message: "No users found" });
+        }
+
+        // Convert the users array into a dictionary with username as key and typeOfUser as value
+        const usersDict = {};
+        users.forEach((user) => {
+            usersDict[user.username] = user.typeOfUser;
+        });
+
+        res.status(200).json(usersDict); // Return the usernames and typeOfUser as a dictionary
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const editUserType = async (req, res) => {
+    try {
+        const { username, newType } = req.body;
+        
+        // Find the user by username
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Update user type if the provided newType is valid
+        if (newType === "regular" || newType === "moderator" || newType === "admin") {
+            user.typeOfUser = newType;
+            await user.save(); // Save the updated user
+
+            res.status(200).json(user); // Return the updated user
+        } else {
+            res.status(400).json({ message: "Invalid user type" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 router.post("/loginUser", loginUser); 
 router.put("/editUser", editUser);
 router.post("/addNewUser", addNewUser);
+router.get("/getAllUsers", getAllUsers);
+router.post("/editUserType", editUserType); 
 
 module.exports = router;

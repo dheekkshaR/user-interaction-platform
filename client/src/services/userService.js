@@ -31,4 +31,26 @@ const register = async (name, username, password, age, bio) => {
     }
 };
 
-export { login, register };
+const getAllUsers = async () => {
+    try {
+        const res = await api.get(`${USER_API_URL}/getAllUsers`);
+        return res.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+const editUserType = async (username, newType) => {
+    try {
+        const res = await api.post(`${USER_API_URL}/editUserType`, {
+            username,
+            newType,
+        });
+
+        return res.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export { login, register, getAllUsers, editUserType };
