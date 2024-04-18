@@ -108,7 +108,7 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
             break;
         }
         default:
-            selected = "q";
+            selected = "m";
             content = getQuestionPage();
             break;
     }

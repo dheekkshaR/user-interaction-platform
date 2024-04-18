@@ -16,27 +16,35 @@ const getQuestionsByFilter = async (req, res) => {
         let questions;
         if (search && order) {
             // Handle both search and order
-            let orderDone = await getQuestionsByOrder(order);
-
-            if (search=="flagged"){
-                questions = await filterQuestionsByFlagged(orderDone);
+            if (order=="flagged"){
+                console.log("flagged")
+                let getall = await getQuestionsByOrder();
+                questions = await filterQuestionsByFlagged(getall);
             }
             else{
-                questions = await filterQuestionsBySearch(orderDone,search);
+                questions = await getQuestionsByOrder(order);
             }
+            // let orderDone = await getQuestionsByOrder(order);
+                questions = await filterQuestionsBySearch(questions,search);
+         
             // console.log("Search done:  -----"+questions);
         } else if (search) {
             // Handle only search
             let orderDone = await getQuestionsByOrder("newest");
-            if (search=="flagged"){
-                questions = await filterQuestionsByFlagged(orderDone);
-            }
-            else{
                 questions = await filterQuestionsBySearch(orderDone,search);
-            }
+            
         } else if (order) {
             // Handle only order
-            questions = await getQuestionsByOrder(order);
+            if (order=="flagged"){
+                console.log("only flagged");
+                let getall = await getQuestionsByOrder();
+                questions = await filterQuestionsByFlagged(getall);
+                //console.log(questions)
+            }
+            else{
+                questions = await getQuestionsByOrder(order);
+            }
+
         } else {
             // Handle none of these
             questions = await getQuestionsByOrder(); // Or any other logic to get all questions
@@ -53,7 +61,6 @@ const getQuestionsByUser = async (req, res) => {
     //res.json(['Complete the function']);
     try {
         const { author } = req.params;
-        console.log(author);
 
         let questions;
         let orderDone = await getQuestionsByOrder();
@@ -212,6 +219,66 @@ const downvoteQuestion = async (req, res) => {
     }
 };
 
+const deleteQuestion = async (req,res) => {
+    try {
+        const { qid } = req.params;
+        console.log(qid);
+        // Find the question by ID and delete it
+        const deletedQuestion = await Question.findByIdAndDelete(qid);
+
+        if (!deletedQuestion) {
+            res.status(500).json({ message: "Cant find question" });
+        }
+
+        res.status(200).json({ message: "Question deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const moderatorAccept = async (req, res) => {
+    try {
+        const { qid } = req.params;
+
+        // Find the question by ID
+        const question = await Question.findById(qid);
+
+        if (!question) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        // Set the flagged attribute value to 0
+        question.flagged = 0;
+        await question.save();
+
+        res.status(200).json({ message: "Flagged attribute updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const reportQuestion = async (req, res) => {
+    try {
+        const { qid } = req.params;
+
+        // Find the question by ID
+        const question = await Question.findById(qid);
+
+        if (!question) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        // Set the flagged attribute value to 0
+        question.flagged = question.flagged+1;
+        await question.save();
+
+        res.status(200).json({ message: "Flagged attribute + updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 
 router.post("/upvoteQuestion", upvoteQuestion);
 router.post("/downvoteQuestion", downvoteQuestion);
@@ -220,5 +287,8 @@ router.get("/getQuestion", getQuestionsByFilter);
 router.get("/getQuestionsByUser/:author", getQuestionsByUser);
 router.get("/getQuestionById/:qid", getQuestionById); 
 router.post("/addQuestion", addQuestion);
+router.delete("/deleteQuestion/:qid", deleteQuestion);
+router.post("/moderatorAccept/:qid", moderatorAccept);
+router.post("/reportQuestion/:qid", reportQuestion);
 
 module.exports = router;

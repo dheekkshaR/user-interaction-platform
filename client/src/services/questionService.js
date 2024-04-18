@@ -44,4 +44,21 @@ const downvoteQuestion = async (qid, userId) => {
     return res.data;
 }
 
-export { getQuestionsByFilter, getQuestionsByUser, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion};
+const moderatorAccept = async (qid) => {
+    const res = await api.post(`${QUESTION_API_URL}/moderatorAccept/${qid}`);
+    return res.data;
+}
+
+const reportQuestion = async (qid) => {
+    const res = await api.post(`${QUESTION_API_URL}/reportQuestion/${qid}`);
+    return res.data;
+}
+
+// To delete a Question by Id
+const deleteQuestion = async (qid) => {
+    const res = await api.delete(`${QUESTION_API_URL}/deleteQuestion/${qid}`);
+
+    return res.data;
+};
+
+export { getQuestionsByFilter, getQuestionsByUser, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion, moderatorAccept,reportQuestion,  deleteQuestion};

@@ -45,6 +45,10 @@
     color: red;
 }
 
+.question_actions {
+    color: black;
+}
+
 .question_meta {
     color: #bbbbbb;
 }

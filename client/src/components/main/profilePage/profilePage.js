@@ -2,7 +2,7 @@ import React from "react";
 import "./profilePage.css";
 import MyQuestionPage from "./myPosts";
 
-const Profile = ({ user, clickTag,handleAnswer}) => {
+const Profile = ({ user, clickTag, handleAnswer}) => {
     return (
         <div> 
             <br/>

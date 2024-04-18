@@ -6,7 +6,13 @@ const QuestionHeader = ({
     qcnt,
     setQuestionOrder,
     handleNewQuestion,
+    user
 }) => {
+  
+    const options=["Newest", "Active", "Unanswered"];
+    if (user.typeOfUser === "moderator") {
+        options.push("Flagged");
+    }
     return (
         <div>
             <div className="space_between right_padding">
@@ -23,13 +29,14 @@ const QuestionHeader = ({
             <div className="space_between right_padding">
                 <div id="question_count">{qcnt} questions</div>
                 <div className="btns">
-                    {["Newest", "Active", "Unanswered"].map((m, idx) => (
+                    {options.map((m, idx) => (
                         <OrderButton
                             key={idx}
                             message={m}
                             setQuestionOrder={setQuestionOrder}
                         />
                     ))}
+
                 </div>
             </div>
         </div>

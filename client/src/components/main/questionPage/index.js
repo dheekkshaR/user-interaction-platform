@@ -16,6 +16,7 @@ const QuestionPage = ({
     user
 }) => {
     const [qlist, setQlist] = useState([]);
+    const [change, setChange] = useState(0);
     useEffect(() => {
         const fetchData = async () => {
             let res = await getQuestionsByFilter(order, search);
@@ -23,7 +24,7 @@ const QuestionPage = ({
         };
 
         fetchData().catch((e) => console.log(e));
-    }, [order, search]);
+    }, [order, search, change]);
     return (
         <>
             <QuestionHeader
@@ -41,6 +42,8 @@ const QuestionPage = ({
                         clickTag={clickTag}
                         handleAnswer={handleAnswer}
                         user={user}
+                        change={change}
+                        setChange={setChange}
                     />
                 ))}
             </div>
