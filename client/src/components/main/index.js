@@ -6,8 +6,9 @@ import TagPage from "./tagPage";
 import AnswerPage from "./answerPage";
 import NewQuestion from "./newQuestion";
 import NewAnswer from "./newAnswer";
+import Profile from "./profilePage/profilePage";
 
-const Main = ({ search = "", title, setQuesitonPage }) => {
+const Main = ({ search = "", title, setQuesitonPage, user }) => {
     const [page, setPage] = useState("home");
     const [questionOrder, setQuestionOrder] = useState("newest");
     const [qid, setQid] = useState("");
@@ -41,6 +42,10 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
         setPage("newAnswer");
     };
 
+    const viewProfile =() => {
+        setPage("profilePage");
+    }
+
     const getQuestionPage = (order = "newest", search = "") => {
         return (
             <QuestionPage
@@ -51,6 +56,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
                 clickTag={clickTag}
                 handleAnswer={handleAnswer}
                 handleNewQuestion={handleNewQuestion}
+                user={user}
             />
         );
     };
@@ -58,7 +64,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
     switch (page) {
         case "home": {
             selected = "q";
-            content = getQuestionPage(questionOrder.toLowerCase(), search);
+            content = getQuestionPage(questionOrder.toLowerCase(), search, user);
             break;
         }
         case "tag": {
@@ -78,18 +84,24 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
                     qid={qid}
                     handleNewQuestion={handleNewQuestion}
                     handleNewAnswer={handleNewAnswer}
+                    user={user}
                 />
             );
             break;
         }
         case "newQuestion": {
             selected = "";
-            content = <NewQuestion handleQuestions={handleQuestions} />;
+            content = <NewQuestion handleQuestions={handleQuestions} user={user}/>;
             break;
         }
         case "newAnswer": {
             selected = "";
-            content = <NewAnswer qid={qid} handleAnswer={handleAnswer} />;
+            content = <NewAnswer qid={qid} handleAnswer={handleAnswer} user={user} />;
+            break;
+        }
+        case "profilePage": {
+            selected = "p";
+            content = <Profile user={user} />;
             break;
         }
         default:
@@ -104,6 +116,7 @@ const Main = ({ search = "", title, setQuesitonPage }) => {
                 selected={selected}
                 handleQuestions={handleQuestions}
                 handleTags={handleTags}
+                handleProfile={viewProfile}
             />
             <div id="right_main" className="right_main">
                 {content}

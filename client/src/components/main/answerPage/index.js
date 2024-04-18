@@ -7,15 +7,23 @@ import QuestionBody from "./questionBody";
 import { getQuestionById } from "../../../services/questionService";
 
 // Component for the Answers page
-const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer }) => {
+const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, user }) => {
     const [question, setQuestion] = useState({});
+    const [author, setAuthor]= useState("");
+    const [change, setChange]= useState(0);
+    const [up, setUp]= useState(0);
+    const [down, setDown]= useState(0);
     useEffect(() => {
         const fetchData = async () => {
             let res = await getQuestionById(qid);
             setQuestion(res || {});
+            setAuthor(res.asked_by.username || "unknown");
+            setUp(res.upvotes.length);
+            setDown(res.downvotes.length);
         };
         fetchData().catch((e) => console.log(e));
-    }, [qid]);
+    }, [qid, change]);
+  
 
     return (
         <>
@@ -27,10 +35,16 @@ const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer }) => {
                 handleNewQuestion={handleNewQuestion}
             />
             <QuestionBody
+                qid={qid}
                 views={question && question.views}
                 text={question && question.text}
-                askby={question && question.asked_by}
+                askby={question && author}
                 meta={question && getMetaData(new Date(question.ask_date_time))}
+                upvotes={up}
+                downvotes={down}
+                user={user}
+                change={change}
+                setChange={setChange}
             />
             {question &&
                 question.answers &&
@@ -40,6 +54,12 @@ const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer }) => {
                         text={a.text}
                         ansBy={a.ans_by}
                         meta={getMetaData(new Date(a.ans_date_time))}
+                        upvotes={a}
+                        downvotes={a}
+                        user={user}
+                        change={change}
+                        setChange={setChange}
+                        aid={a._id}
                     />
                 ))}
             <button

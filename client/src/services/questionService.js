@@ -25,4 +25,14 @@ const addQuestion = async (q) => {
     return res.data;
 };
 
-export { getQuestionsByFilter, getQuestionById, addQuestion };
+const upvoteQuestion = async (qid, userId) => {
+    const res = await api.post(`${QUESTION_API_URL}/upvoteQuestion`, { qid,  userId,});
+    return res.data;
+}
+
+const downvoteQuestion = async (qid, userId) => {
+    const res = await api.post(`${QUESTION_API_URL}/downvoteQuestion`, { qid,  userId,});
+    return res.data;
+}
+
+export { getQuestionsByFilter, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion};

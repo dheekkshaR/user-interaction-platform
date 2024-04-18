@@ -107,6 +107,86 @@ const addQuestion = async (req, res) => {
     }
 };
 
+// To upvote a Question by Id
+const upvoteQuestion = async (req, res) => {
+    try {
+        const { qid, userId } = req.body;
+
+        // Find the question by ID
+        const question = await Question.findById(qid);
+
+        if (!question) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        // Check if the user has already downvoted the question
+        const user = await User.findById(userId);
+        if (user && question.downvotes.includes(userId)) {
+            // Remove user from downvotes list
+            question.downvotes = question.downvotes.filter((id) => id.toString() !== userId);
+        }
+        // Check if the user has already upvoted the question
+        if (question.upvotes.includes(userId)) {
+            // Remove user's upvote from the upvotes array
+            question.upvotes = question.upvotes.filter(id => id.toString() !== userId);
+            await question.save();
+
+            return res.status(200).json({ message: "Upvote removed successfully" });
+        }
+
+        // Add user to upvotes list
+        question.upvotes.push(userId);
+        await question.save();
+
+        res.status(200).json({ message: "Question upvoted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+// To downvote a Question by Id
+const downvoteQuestion = async (req, res) => {
+    try {
+        const { qid, userId } = req.body;
+
+        // Find the question by ID
+        const question = await Question.findById(qid);
+
+        if (!question) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        // Check if the user has already upvoted the question
+        const user = await User.findById(userId);
+        if (user && question.upvotes.includes(userId)) {
+            // Remove user from upvotes list
+            question.upvotes = question.upvotes.filter((id) => id.toString() !== userId);
+        }
+
+        // Check if the user has already downvoted the question
+        if (question.downvotes.includes(userId)) {
+            // Remove user's downvote from the downvotes array
+            question.downvotes = question.downvotes.filter(id => id.toString() !== userId);
+            await question.save();
+
+            return res.status(200).json({ message: "Downvote removed successfully" });
+        }
+
+        // Add user to downvotes list
+        question.downvotes.push(userId);
+        await question.save();
+
+        res.status(200).json({ message: "Question downvoted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+router.post("/upvoteQuestion", upvoteQuestion);
+router.post("/downvoteQuestion", downvoteQuestion);
 // add appropriate HTTP verbs and their endpoints to the router
 router.get("/getQuestion", getQuestionsByFilter);
 router.get("/getQuestionById/:qid", getQuestionById); 

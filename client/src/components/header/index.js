@@ -1,7 +1,8 @@
 import "./index.css";
 import { useState } from "react";
 
-const Header = ({ search, setQuesitonPage }) => {
+
+const Header = ({ search, setQuesitonPage , user, logout}) => {
     const [val, setVal] = useState(search);
     return (
         <div id="header" className="header">
@@ -22,6 +23,10 @@ const Header = ({ search, setQuesitonPage }) => {
                     }
                 }}
             />
+            <div>
+            <span > {user.username}  </span>
+            <span onClick={logout} className="logout-icon" title="LOGOUT" > X </span>
+            </div>
         </div>
     );
 };
