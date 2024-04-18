@@ -1,7 +1,8 @@
 import React from "react";
 import "./profilePage.css";
+import MyQuestionPage from "./myPosts";
 
-const Profile = ({ user }) => {
+const Profile = ({ user, clickTag,handleAnswer}) => {
     return (
         <div> 
             <br/>
@@ -26,6 +27,11 @@ const Profile = ({ user }) => {
                 <div className="profile-value">{user.age}</div>
             </div>
         </div>
+                <MyQuestionPage user={user}
+                clickTag={clickTag}
+                handleAnswer={handleAnswer}>
+
+                </MyQuestionPage>
         </div>
     );
 };

@@ -11,6 +11,15 @@ const getQuestionsByFilter = async (order = "newest", search = "") => {
     return res.data;
 };
 
+// To get Questions by Filter
+const getQuestionsByUser = async ( author) => {
+    const res = await api.get(
+        `${QUESTION_API_URL}/getQuestionsByUser/${author}`
+    );
+    return res.data;
+};
+
+
 // To get Questions by id
 const getQuestionById = async (qid) => {
     const res = await api.get(`${QUESTION_API_URL}/getQuestionById/${qid}`);
@@ -35,4 +44,4 @@ const downvoteQuestion = async (qid, userId) => {
     return res.data;
 }
 
-export { getQuestionsByFilter, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion};
+export { getQuestionsByFilter, getQuestionsByUser, getQuestionById, addQuestion, upvoteQuestion, downvoteQuestion};

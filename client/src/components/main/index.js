@@ -101,7 +101,10 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
         }
         case "profilePage": {
             selected = "p";
-            content = <Profile user={user} />;
+            content = <Profile user={user}
+                clickTag={clickTag}
+                handleAnswer={handleAnswer}
+                 />;
             break;
         }
         default:
