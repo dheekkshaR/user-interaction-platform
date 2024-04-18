@@ -1,6 +1,7 @@
 const express = require("express");
 const Question = require("../models/questions");
 const Answer = require("../models/answers");
+const User = require("../models/users");
 // const Tag = require("../models/tags");
 const { addTag, getQuestionsByOrder, filterQuestionsBySearch } = require('../utils/question');
 
@@ -16,8 +17,7 @@ const getQuestionsByFilter = async (req, res) => {
         if (search && order) {
             // Handle both search and order
             let orderDone = await getQuestionsByOrder(order);
-            // console.log("Order done:  -----"+orderDone);
-            // console.log("Order done:  ----------------------------");
+
             questions = await filterQuestionsBySearch(orderDone,search);
             // console.log("Search done:  -----"+questions);
         } else if (search) {
@@ -49,7 +49,14 @@ const getQuestionById = async (req, res) => {
             { new: true }
         ).populate({
             path: 'answers',
-            model: Answer
+            model: Answer,
+            populate: {
+                path: 'ans_by',
+                model: User
+            }
+        }).populate({
+            path: 'asked_by',
+            model: User
         })
 
         if (!question) {
@@ -59,7 +66,7 @@ const getQuestionById = async (req, res) => {
         res.status(200).json(question);
     } catch (error) {
         console.log("by id error"+ error);
-        res.status(500).json({ error: "Database error", message: "Database error" }); 
+        //res.status(500).json({ error: "Database error", message: "Database error" }); 
         //res.status(500).json({ error: "Database error" });
         //res.status(500).json({ message: "Database error" });
         // if (error.message === 'Database error') {
@@ -74,9 +81,8 @@ const getQuestionById = async (req, res) => {
 
 // To add Question
 const addQuestion = async (req, res) => {
-    //res.json({msg:'complete the function'});
     try {
-        const { title, text, tags, asked_by, ask_date_time } = req.body;
+        const { title, text, tags, asked_by, ask_date_time , } = req.body;
 
         const tagIds=  await Promise.all(tags.map(async (tagName) => { return addTag(tagName); }));
 
@@ -85,15 +91,14 @@ const addQuestion = async (req, res) => {
             title: title,
             text: text,
             tags: tagIds,
-            asked_by: asked_by,
+            asked_by: asked_by,//asked by is already a user id from client side
             ask_date_time: ask_date_time,
+            upvotes:[],
+            downvotes:[],
+            flagged:0
         });
 
         console.log(newQuestion);
-        // Save the new question to the database
-        // const savedQuestion = await newQuestion.save();
-        //const savedQuestion = await Question.create(newQuestion);//TA
-        // console.log(savedQuestion);
 
         res.status(200).json(newQuestion); // Return the newly created question
     } catch (error) {

@@ -9,20 +9,11 @@ const addAnswer = async (req, res) => {
     //res.json({msg: 'Complete function'});
     try {
         const { qid, ans } = req.body;
-
-        // Validate qid and ans if needed
-
         const newAnswer = await Answer.create({
             text: ans.text,
             ans_by: ans.ans_by,
             ans_date_time: ans.ans_date_time,
         });
-
-        // Save the new answer to the database
-        // const savedAnswer = await newAnswer.save();
-        // if (!savedAnswer || !savedAnswer._id) {
-        //     return res.status(500).json({ message: "Answer not saved" });
-        // }
 
         // Update the corresponding question with the new answer ID
         const question = await Question.findOneAndUpdate(

@@ -23,10 +23,7 @@ const getTagsWithQuestionNumber = async (req, res) => {
             model: Tag
         })
         // console.log(questions);
-        // Check if questions is an array
-        // if (!Array.isArray(questions)) {
-        //     throw new Error("Questions data is not an array");
-        // }
+        
         questions.forEach((question) => {
             question.tags.forEach((tagId) => {
                 console.log(tagId)

@@ -1,6 +1,7 @@
 const Tag = require("../models/tags");
 const Question = require("../models/questions");
 const Answer = require("../models/answers");
+const User = require("../models/users");
 
 const addTag = async (tname) => {
     //return 'complete addTag';
@@ -32,10 +33,17 @@ const getQuestionsByOrder = async (order) => {
     let qlist = await Question.find()
         .populate({
             path: 'answers',
-            model: Answer
+            model: Answer,
+            populate: {
+                path: 'ans_by',
+                model: User
+            }
         }).populate({
             path: 'tags',
             model: Tag
+        }).populate({
+            path: 'asked_by', // Populate the askedBy field with User object
+            model: User
         })
         .exec(); // Assuming Question is your Mongoose model
 
