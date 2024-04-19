@@ -25,6 +25,7 @@ const SideBarNav = ({ selected = "", handleQuestions, handleTags, handleProfile,
             >
                 Tags
             </div>
+            { user  && (
             <div
                 id="menu_profile"
                 className={`menu_button ${
@@ -35,8 +36,8 @@ const SideBarNav = ({ selected = "", handleQuestions, handleTags, handleProfile,
                 }}
             >
                 My profile
-            </div>
-            {user.typeOfUser === "admin" && (
+            </div>)}
+            { user && user.typeOfUser === "admin" && (
             <div
                 id="menu_admin"
                 className={`menu_button ${

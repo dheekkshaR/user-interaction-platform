@@ -62,6 +62,7 @@ const Question = ({ q, clickTag, handleAnswer, user,  change, setChange }) => {
             <div className="postStats">
                 <div>{q.answers.length || 0} answers</div>
                 <div>{q.views} views</div>
+                { user && (
                 <div className="question_actions"> 
                     {canDeleteQuestion() && (
                     <i
@@ -88,6 +89,8 @@ const Question = ({ q, clickTag, handleAnswer, user,  change, setChange }) => {
                         handleReportQuestion(q._id);
                     }}></i>
                 </div>
+                )}
+
             </div>
             <div className="question_mid">
                 <div className="postTitle">{q.title}</div>

@@ -36,10 +36,12 @@ const QuestionBody = ({ views, text, askby, meta, upvotes, downvotes , user, qid
             <div className="answer_question_right">
                 <div className="question_author">{askby}</div>
                 <div className="answer_question_meta">asked {meta}</div>
+                { user && (
                 <div className="votes"> 
                     <i className="fa fas fa-thumbs-up upvotePost" onClick={handleUpvote}></i> {upvotes} 
                     <i className="fa fas fa-thumbs-down" onClick={handleDownvote}></i> {downvotes}
                 </div>
+                )}
             </div>
         </div>
     );

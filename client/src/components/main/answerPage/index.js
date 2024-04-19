@@ -7,7 +7,7 @@ import QuestionBody from "./questionBody";
 import { getQuestionById } from "../../../services/questionService";
 
 // Component for the Answers page
-const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, user }) => {
+const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, user, setLoginPage }) => {
     const [question, setQuestion] = useState({});
     const [author, setAuthor]= useState("");
     const [change, setChange]= useState(0);
@@ -33,6 +33,8 @@ const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, user }) => {
                 }
                 title={question && question.title}
                 handleNewQuestion={handleNewQuestion}
+                user={user}
+                setLoginPage={setLoginPage}
             />
             <QuestionBody
                 qid={qid}
@@ -60,16 +62,24 @@ const AnswerPage = ({ qid, handleNewQuestion, handleNewAnswer, user }) => {
                         change={change}
                         setChange={setChange}
                         aid={a._id}
+
+                        setLoginPage={setLoginPage}
                     />
                 ))}
+
             <button
-                className="bluebtn ansButton"
-                onClick={() => {
-                    handleNewAnswer();
-                }}
-            >
-                Answer Question
-            </button>
+                    className="bluebtn ansButton"
+                    onClick={() => {
+                        if(user!=null){
+                            handleNewAnswer();
+                        }
+                        else{
+                            setLoginPage();
+                        }
+                    }}
+                >
+                    Answer Question
+                </button>
         </>
     );
 };

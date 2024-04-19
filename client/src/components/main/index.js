@@ -8,8 +8,9 @@ import NewQuestion from "./newQuestion";
 import NewAnswer from "./newAnswer";
 import Profile from "./profilePage/profilePage";
 import AdminPage from "./adminPage/adminPage";
+// import Login from "../userauth/login";
 
-const Main = ({ search = "", title, setQuesitonPage, user }) => {
+const Main = ({ search = "", title, setQuesitonPage, user, setLoginPage }) => {
     const [page, setPage] = useState("home");
     const [questionOrder, setQuestionOrder] = useState("newest");
     const [qid, setQid] = useState("");
@@ -49,6 +50,9 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
     const viewAdminOptions=() => {
         setPage("adminPage");
     }
+    // const viewLoginPage=() => {
+    //     setPage("loginPage");
+    // }
 
     const getQuestionPage = (order = "newest", search = "") => {
         return (
@@ -61,6 +65,7 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
                 handleAnswer={handleAnswer}
                 handleNewQuestion={handleNewQuestion}
                 user={user}
+                setLoginPage={setLoginPage}
             />
         );
     };
@@ -89,6 +94,7 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
                     handleNewQuestion={handleNewQuestion}
                     handleNewAnswer={handleNewAnswer}
                     user={user}
+                    setLoginPage={setLoginPage}
                 />
             );
             break;
@@ -117,6 +123,11 @@ const Main = ({ search = "", title, setQuesitonPage, user }) => {
                  />;
             break;
         }
+        // case "loginPage":{
+        //     selected = "";
+        //     content =<Login handleLogin={handleLogin} />
+        //     break;
+        // }
         default:
             selected = "q";
             content = getQuestionPage();

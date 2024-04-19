@@ -6,11 +6,14 @@ const QuestionHeader = ({
     qcnt,
     setQuestionOrder,
     handleNewQuestion,
-    user
+    user,
+    setLoginPage
 }) => {
+
+
   
     const options=["Newest", "Active", "Unanswered"];
-    if (user.typeOfUser === "moderator") {
+    if ( user && user.typeOfUser === "moderator") {
         options.push("Flagged");
     }
     return (
@@ -20,7 +23,12 @@ const QuestionHeader = ({
                 <button
                     className="bluebtn"
                     onClick={() => {
+                        if(user!=null){
                         handleNewQuestion();
+                        }
+                        else{
+                            setLoginPage();
+                        }
                     }}
                 >
                     Ask a Question
