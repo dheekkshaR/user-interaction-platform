@@ -1,4 +1,5 @@
 import "./index.css";
+// import escapeHTML from "../../../../securityFunctions";
 
 const Input = ({ title, hint, id, mandatory = true, val, setState, err }) => {
     return (
@@ -14,6 +15,7 @@ const Input = ({ title, hint, id, mandatory = true, val, setState, err }) => {
                 type="text"
                 value={val}
                 onInput={(e) => {
+                   // const sanitizedValue = escapeHTML(e.target.value.trim());
                     setState(e.target.value);
                 }}
             />
