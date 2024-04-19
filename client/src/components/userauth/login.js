@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { login, register } from "../../services/userService";
 import Input from "../main/baseComponents/input";
 import Form from "../main/baseComponents/form";
+import Cookies from 'js-cookie'; // Import js-cookie
 
 const Login = ({ handleLogin }) => {
     const [username, setUsername] = useState("");
@@ -12,6 +13,8 @@ const Login = ({ handleLogin }) => {
     const [age, setAge] = useState("");
     const [bio, setBio] = useState("");
 
+
+
     const handleLoginClick = async () => {
         try {
             const user = await login(username, password);
@@ -19,7 +22,11 @@ const Login = ({ handleLogin }) => {
             if (!user) {
                 throw user;
             } else {
+                // Set session storage or cookie upon successful login
+                sessionStorage.setItem('user', JSON.stringify(user)); // Using sessionStorage
+                Cookies.set('user', JSON.stringify(user)); // Using js-cookie
                 handleLogin(user); // Handle successful login
+                
             }
 
         } catch (error) {

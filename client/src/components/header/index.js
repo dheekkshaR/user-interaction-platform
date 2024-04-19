@@ -1,8 +1,14 @@
 import "./index.css";
 import { useState } from "react";
-
+import Cookies from 'js-cookie';
 
 const Header = ({ search, setQuesitonPage , user, logout, setLoginPage}) => {
+
+    const setLogout=()=>{
+        Cookies.remove('user');
+        logout();
+    }
+
     const [val, setVal] = useState(search);
     return (
         <div id="header" className="header">
@@ -31,7 +37,7 @@ const Header = ({ search, setQuesitonPage , user, logout, setLoginPage}) => {
                     LOGIN
                 </span>
             )}
-            <span onClick={logout} className="logout-icon" title="LOGOUT" > X </span>
+            <span onClick={setLogout} className="logout-icon" title="LOGOUT" > X </span>
             </div>
         </div>
     );
