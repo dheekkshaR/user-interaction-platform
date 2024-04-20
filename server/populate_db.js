@@ -100,7 +100,7 @@ const populate = async () => {
   let t4 = await tagCreate('shared-preferences');
   let t5 = await tagCreate('storage');
   let t6 = await tagCreate('website');
-  let t7 = await tagCreate('Flutter');
+  // let t7 = await tagCreate('Flutter');
 
   // Mock answers
   let a1 = await answerCreate('React Router is mostly a wrapper around the history library.', user1 , new Date('2023-11-20T03:24:42'), [user2 , user3 ], [user4 ]);

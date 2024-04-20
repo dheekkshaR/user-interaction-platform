@@ -133,7 +133,7 @@ const addQuestion = async (req, res) => {
             flagged:0
         });
 
-        console.log(newQuestion);
+        //console.log(newQuestion);
 
         res.status(200).json(newQuestion); // Return the newly created question
     } catch (error) {

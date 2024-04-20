@@ -3,13 +3,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const session = require("express-session")
 
 const { MONGO_URL,CLIENT_URL, port } = require("./config");
 
 mongoose.connect(MONGO_URL);
 
 const app = express();
-
+const secret = process.argv[2];
+app.use(express.urlencoded({ extended: false }))
 app.use(
     cors({
         credentials: true,
@@ -17,6 +19,19 @@ app.use(
     })
 );
 app.use(express.json());
+
+app.use(
+    session({
+      secret: `${secret}`,
+      cookie: {
+          httpOnly: true,
+          sameSite: true,
+      },
+      resave: false,
+      saveUninitialized: false
+    })
+  )
+
 app.get("/", (_, res) => {
     res.send("Fake SO Server Dummy Endpoint");
     res.end();

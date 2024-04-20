@@ -1,5 +1,5 @@
 import "./index.css";
-// import escapeHTML from "../../../../securityFunctions";
+import escapeHTML from "../../../../securityFunctions";
 
 const Input = ({ title, hint, id, mandatory = true, val, setState, err }) => {
     return (
@@ -15,8 +15,9 @@ const Input = ({ title, hint, id, mandatory = true, val, setState, err }) => {
                 type="text"
                 value={val}
                 onInput={(e) => {
-                   // const sanitizedValue = escapeHTML(e.target.value.trim());
-                    setState(e.target.value);
+                //    const sanitizedValue = escapeHTML(e.target.value.trim());
+                //    console.log(sanitizedValue);
+                    setState(escapeHTML(e.target.value.trim()));
                 }}
             />
             {err && <div className="input_error">{err}</div>}

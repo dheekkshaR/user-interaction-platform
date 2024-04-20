@@ -124,7 +124,7 @@ const filterQuestionsBySearch = (qlist, search) => {
         };
 
     let searchTags = parseTags(search);
-    console.log
+
     let searchKeyword = parseKeyword(search);
 
     return qlist.filter((q) => {
