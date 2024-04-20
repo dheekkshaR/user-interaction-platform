@@ -56,23 +56,6 @@ const getQuestionsByFilter = async (req, res) => {
     }
 };
 
-// To get Questions by Filter
-const getQuestionsByUser = async (req, res) => {
-    //res.json(['Complete the function']);
-    try {
-        const { author } = req.params;
-
-        let questions;
-        let orderDone = await getQuestionsByOrder();
-
-        questions = await filterQuestionsByUser(orderDone, author);
-
-        res.json(questions);
-    } catch (error) {
-        res.status(500).json({ message: "Internal server error" });
-    }
-};
-
 // To get Questions by Id
 const getQuestionById = async (req, res) => {
     //res.json({msg: 'complete the function'});
@@ -138,6 +121,23 @@ const addQuestion = async (req, res) => {
         res.status(200).json(newQuestion); // Return the newly created question
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+// To get Questions by Filter
+const getQuestionsByUser = async (req, res) => {
+    //res.json(['Complete the function']);
+    try {
+        const { author } = req.params;
+
+        let questions;
+        let orderDone = await getQuestionsByOrder();
+
+        questions = await filterQuestionsByUser(orderDone, author);
+
+        res.json(questions);
+    } catch (error) {
         res.status(500).json({ message: "Internal server error" });
     }
 };

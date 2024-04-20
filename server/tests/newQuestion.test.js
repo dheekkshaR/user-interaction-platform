@@ -5,7 +5,7 @@ const supertest = require("supertest")
 const { default: mongoose } = require("mongoose");
 
 const Question = require('../models/questions');
-const { addTag, getQuestionsByOrder, filterQuestionsBySearch } = require('../utils/question');
+const { addTag, getQuestionsByOrder, filterQuestionsBySearch, filterQuestionsByUser, filterQuestionsByFlagged } = require('../utils/question');
 
 // Mocking the models
 jest.mock("../models/questions");
@@ -13,6 +13,7 @@ jest.mock('../utils/question', () => ({
   addTag: jest.fn(),
   getQuestionsByOrder: jest.fn(),
   filterQuestionsBySearch: jest.fn(),
+  filterQuestionsByUser: jest.fn(),
 }));
 
 let server;
@@ -220,6 +221,39 @@ describe('GET /getQuestionById/:qid', () => {
 
     // expect(response.status).toBe(500); // Assuming 500 is the status code for internal server error
     // expect(response.body.error).toEqual("Database error");
+  });
+});
+
+describe('GET /getQuestionsByUser/:author', () => {
+
+  beforeEach(() => {
+    server = require("../server");
+  })
+
+  afterEach(async() => {
+    server.close();
+    await mongoose.disconnect()
+  });
+
+  it('should return questions by user', async () => {
+    // Mock request parameters
+    const mockReqParams = {
+      author: 'someAuthorId',
+    };
+
+    const mockFilteredQuestions = mockQuestions.filter(q => q.author === mockReqParams.author);
+    
+    // Mock getQuestionsByOrder and filterQuestionsByUser
+    getQuestionsByOrder.mockResolvedValueOnce(mockQuestions);
+    filterQuestionsByUser.mockReturnValueOnce(mockFilteredQuestions);
+   
+    // Making the request
+    const response = await supertest(server)
+      .get(`/question/getQuestionsByUser/${mockReqParams.author}`);
+
+    // Asserting the response
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(mockFilteredQuestions);
   });
 });
 

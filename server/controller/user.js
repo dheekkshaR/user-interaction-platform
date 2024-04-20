@@ -25,32 +25,32 @@ const addNewUser = async (req, res) => {
     }
 };
 
-// Edit user details and update user type
-const editUser = async (req, res) => {
-    try {
-        const { username, typeOfUser } = req.body;
+// // Edit user details and update user type
+// const editUser = async (req, res) => {
+//     try {
+//         const { username, typeOfUser } = req.body;
         
-        // Find the user by username
-        const user = await User.findOne({ username });
+//         // Find the user by username
+//         const user = await User.findOne({ username });
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
 
-        // Update user type if the provided type is valid
-        if (typeOfUser === "regular" || typeOfUser === "moderator" || typeOfUser === "admin") {
-            user.typeOfUser = typeOfUser;
-            await user.save(); // Save the updated user
+//         // Update user type if the provided type is valid
+//         if (typeOfUser === "regular" || typeOfUser === "moderator" || typeOfUser === "admin") {
+//             user.typeOfUser = typeOfUser;
+//             await user.save(); // Save the updated user
 
-            res.status(200).json(user); // Return the updated user
-        } else {
-            res.status(400).json({ message: "Invalid user type" });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-};
+//             res.status(200).json(user); // Return the updated user
+//         } else {
+//             res.status(400).json({ message: "Invalid user type" });
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// };
 
 // Login user
 const loginUser = async (req, res) => {
@@ -121,7 +121,7 @@ const editUserType = async (req, res) => {
 
 
 router.post("/loginUser", loginUser); 
-router.put("/editUser", editUser);
+// router.put("/editUser", editUser);
 router.post("/addNewUser", addNewUser);
 router.get("/getAllUsers", getAllUsers);
 router.post("/editUserType", editUserType); 

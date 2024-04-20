@@ -2,7 +2,7 @@
 const mockingoose = require('mockingoose');
 const Tag = require("../models/tags");
 const Question = require("../models/questions");
-const { addTag, getQuestionsByOrder, filterQuestionsBySearch } = require('../utils/question')
+const { addTag, getQuestionsByOrder, filterQuestionsBySearch, filterQuestionsByFlagged, filterQuestionsByUser } = require('../utils/question')
 Question.schema.path('answers', Array);
 
 const _tag1 = {
@@ -224,4 +224,63 @@ describe('question util module', () => {
         expect(result[1]._id.toString()).toEqual('65e9b716ff0e892116b2de01');
         expect(result[2]._id.toString()).toEqual('65e9b716ff0e892116b2de05');
     })
+
+    test('filter questions by flagged attribute', () => {
+        const questions = [
+            { _id: '1', flagged: 0 },
+            { _id: '2', flagged: 1 },
+            { _id: '3', flagged: 0 },
+            { _id: '4', flagged: 2 },
+        ];
+    
+        const result = filterQuestionsByFlagged(questions);
+    
+        expect(result.length).toEqual(2);
+        expect(result[0]._id).toEqual('2');
+        expect(result[1]._id).toEqual('4');
+    });
+    
+    test('filter questions by flagged attribute with empty list', () => {
+        const questions = [];
+    
+        const result = filterQuestionsByFlagged(questions);
+    
+        expect(result.length).toEqual(0);
+    });
+
+    test('filter questions by user ID', () => {
+        const questions = [
+            { _id: '1', asked_by: { _id: 'user1' } },
+            { _id: '2', asked_by: { _id: 'user2' } },
+            { _id: '3', asked_by: { _id: 'user1' } },
+            { _id: '4', asked_by: { _id: 'user3' } },
+        ];
+    
+        const result = filterQuestionsByUser(questions, 'user1');
+    
+        expect(result.length).toEqual(2);
+        expect(result[0]._id).toEqual('1');
+        expect(result[1]._id).toEqual('3');
+    });
+    
+    test('filter questions by user ID with empty list', () => {
+        const questions = [];
+    
+        const result = filterQuestionsByUser(questions, 'user1');
+    
+        expect(result.length).toEqual(0);
+    });
+    
+    test('filter questions by user ID with invalid user ID', () => {
+        const questions = [
+            { _id: '1', asked_by: { _id: 'user1' } },
+            { _id: '2', asked_by: { _id: 'user2' } },
+            { _id: '3', asked_by: { _id: 'user1' } },
+        ];
+    
+        const result = filterQuestionsByUser(questions, 'user3');
+    
+        expect(result.length).toEqual(0);
+    });
+    
 })
