@@ -84,10 +84,9 @@ jobs:
       run: npx jest -w=1 tests/
       working-directory: server/
 
-    - name: Run Jest tests in w
-      run: npx jest --runInBand tests/
-      working-directory: server/
-
+    # - name: Run Jest tests in w
+    #   run: npx jest --runInBand tests/
+    #   working-directory: server/
 
     - name: Kill the node server process
       run: kill $(lsof -t -i:8000) || true
