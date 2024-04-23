@@ -72,8 +72,12 @@ jobs:
     #   run: npx cypress run --spec cypress/e2e/
     #   working-directory: client/
 
-    - name: Run component tests
-      run: npx cypress run --spec cypress/component/
+    # - name: Run component tests
+    #   run: npx cypress run --spec cypress/component/
+    #   working-directory: client/
+
+    - name: Run Component tests
+      run: npx cypress run --component
       working-directory: client/
 
     # - name: Run Jest tests
