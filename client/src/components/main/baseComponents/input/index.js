@@ -17,7 +17,7 @@ const Input = ({ title, hint, id, mandatory = true, val, setState, err }) => {
                 onInput={(e) => {
                 //    const sanitizedValue = escapeHTML(e.target.value.trim());
                 //    console.log(sanitizedValue);
-                    setState(escapeHTML(e.target.value.trim()));
+                    setState(escapeHTML(e.target.value));
                 }}
             />
             {err && <div className="input_error">{err}</div>}

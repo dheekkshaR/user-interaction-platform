@@ -282,6 +282,7 @@ const reportQuestion = async (req, res) => {
 
 router.post("/upvoteQuestion", upvoteQuestion);
 router.post("/downvoteQuestion", downvoteQuestion);
+
 // add appropriate HTTP verbs and their endpoints to the router
 router.get("/getQuestion", getQuestionsByFilter);
 router.get("/getQuestionsByUser/:author", getQuestionsByUser);
