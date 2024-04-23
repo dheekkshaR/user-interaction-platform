@@ -14,7 +14,7 @@ const addAnswer = async (req, res) => {
             text: ans.text,
             ans_by: ans.ans_by,
             ans_date_time: ans.ans_date_time,
-        });
+        })
 
         // Update the corresponding question with the new answer ID
         const question = await Question.findOneAndUpdate(
@@ -29,7 +29,7 @@ const addAnswer = async (req, res) => {
 
         res.status(200).json(newAnswer); // Return the newly created answer
     } catch (error) {
-        console.error(error);
+       //console.error(error)
         res.status(500).json({ message: "Internal server error" });
     }
 };
@@ -38,9 +38,9 @@ const addAnswer = async (req, res) => {
 const upvoteAnswer = async (req, res) => {
     try {
         const { aid, userId } = req.body;
-
+        
         // Find the answer by ID
-        const answer = await Answer.findById(aid);
+        const answer = await Answer.findById(aid).then((ans) => console.log("hurray")).catch((err) => console.log(err));
 
         if (!answer) {
             return res.status(404).json({ message: "Answer not found" });
@@ -81,6 +81,7 @@ const downvoteAnswer = async (req, res) => {
         const answer = await Answer.findById(aid);
 
         if (!answer) {
+            console.log("answer: ", JSON.stringify(answer))
             return res.status(404).json({ message: "Answer not found" });
         }
 
@@ -105,7 +106,7 @@ const downvoteAnswer = async (req, res) => {
 
         res.status(200).json({ message: "Answer downvoted successfully" });
     } catch (error) {
-        console.error(error);
+       //console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
