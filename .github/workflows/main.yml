@@ -1,4 +1,4 @@
-name: Run Cypress on pull request to main
+name: Run Cypress e2e tests on pull request to main
 
 on:
   pull_request:
@@ -68,17 +68,17 @@ jobs:
       run: npm install cypress
       working-directory: client/
 
-    # - name: Run e2e tests
-    #   run: npx cypress run --spec cypress/e2e/
-    #   working-directory: client/
+    - name: Run e2e tests
+      run: npx cypress run --spec cypress/e2e/
+      working-directory: client/
 
     # - name: Run component tests
     #   run: npx cypress run --spec cypress/component/
     #   working-directory: client/
 
-    - name: Run Jest tests
-      run: npm test tests/
-      working-directory: server/
+    # - name: Run Jest tests
+    #   run: npm test tests/
+    #   working-directory: server/
 
     - name: Kill the node server process
       run: kill $(lsof -t -i:8000) || true

@@ -1,4 +1,4 @@
-name: Run jest on pull request to main
+name: Run jest tests on pull request to main
 
 on:
   pull_request:
