@@ -82,7 +82,7 @@ describe('testing User.js server API end-points', () =>{
     // 404 error using empty database. line 80 in users.js
 
     // test('Getting all user data when there is no data in the database (status: 404)',  async() => {
-    //     await User.deleteMany({});
+    //     // await User.deleteMany({});
 
     //     // Mock the User.find method to return an empty array
     //     jest.spyOn(User, 'find').mockResolvedValue([]);
@@ -119,7 +119,7 @@ describe('testing User.js server API end-points', () =>{
 
       test('Should return 400 for wrong type in editing user type', async () => {
         const usertype = {
-            username: 'abhi', 
+            username: 'abhi',
             newType: 'extreme'
         }
     
@@ -137,9 +137,20 @@ describe('testing User.js server API end-points', () =>{
         expect(response.status).toBe(200);
       });
 
-      
+      //for line 117-118 for dababase error 500 for editing types
+    //   test('Should return 500 for internal server error', async () => {
+
+    
+
+    //     const response = await supertest(server)
+    //       .put('/user/editUserType')
+    //       .send({ username: 'alice123', newType: 'admin' });
+    
+    //     expect(response.status).toBe(500);
 
 
+    
+    //   });
     
 
     

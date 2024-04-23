@@ -28,7 +28,6 @@ const getTagsWithQuestionNumber = async (req, res) => {
             question.tags.forEach((tagId) => {
                 console.log(tagId)
                 if (tagWithCounts[tagId.name]) {
-                    
                     tagWithCounts[tagId.name].qcnt++;
                 }
             });
