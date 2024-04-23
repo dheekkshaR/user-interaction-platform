@@ -76,13 +76,13 @@ jobs:
     #   run: npx cypress run --spec cypress/component/
     #   working-directory: client/
 
-    # - name: Run Jest tests
-    #   run: npm test tests/
-    #   working-directory: server/
-
-    - name: Run Jest tests in w
-      run: npx jest -w=1 tests/
+    - name: Run Jest tests
+      run: npm test tests/
       working-directory: server/
+
+    # - name: Run Jest tests in w
+    #   run: npx jest -w=1 tests/
+    #   working-directory: server/
 
     # - name: Run Jest tests in w
     #   run: npx jest --runInBand tests/
