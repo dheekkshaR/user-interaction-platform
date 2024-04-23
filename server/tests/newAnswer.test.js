@@ -26,6 +26,7 @@ describe("POST /addAnswer", () => {
     const mockReqBody = {
       qid: "dummyQuestionId",
       ans: {
+        _id: "aa"
         text: "This is a test answer"
       }
     };

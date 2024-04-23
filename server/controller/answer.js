@@ -6,9 +6,10 @@ const router = express.Router();
 
 // Adding answer
 const addAnswer = async (req, res) => {
-    //res.json({msg: 'Complete function'});
     try {
         const { qid, ans } = req.body;
+        console.log("qid: ", qid)
+        console.log("ans", JSON.stringify(ans))
         const newAnswer = await Answer.create({
             text: ans.text,
             ans_by: ans.ans_by,
