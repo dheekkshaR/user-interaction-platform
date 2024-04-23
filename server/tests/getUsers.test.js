@@ -119,7 +119,7 @@ describe('testing User.js server API end-points', () =>{
 
       test('Should return 400 for wrong type in editing user type', async () => {
         const usertype = {
-            username: 'abhi',
+            username: 'abhi', 
             newType: 'extreme'
         }
     
