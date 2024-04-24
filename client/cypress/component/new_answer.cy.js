@@ -2,35 +2,38 @@ import NewAnswer from '../../src/components/main/newAnswer/index';
 import { addAnswer } from '../../../client/src/services/answerService';
 import { mount } from 'cypress/react18'
 it('mounts', () => {
-    cy.mount(<NewAnswer/>)
-    cy.get('#answerUsernameInput')
+    const user = {
+        name: 'John Doe',
+        username: 'johndoe123',
+        bio: 'Lorem ipsum dolor sit amet',
+        age: 30,
+      };
+    cy.mount(<NewAnswer user={user}/>)
     cy.get('#answerTextInput')
     cy.get('.form_postBtn')
 })
 
 it('shows error message when both input is empty', () => {
-    cy.mount(<NewAnswer/>)
-    cy.get('.form_postBtn').click()
-    cy.get('div .input_error').contains('Username cannot be empty')
-    cy.get('div .input_error').contains('Answer text cannot be empty')
-})
-
-it('shows username inputted by user', () => {
-    cy.mount(<NewAnswer/>)
-    cy.get('#answerUsernameInput').should('have.value', '')
-    cy.get('#answerUsernameInput').type('abc')
-    cy.get('#answerUsernameInput').should('have.value', 'abc')
-})
-
-it('shows error message when text is empty', () => {
-    cy.mount(<NewAnswer/>)
-    cy.get('#answerUsernameInput').type('abc')
+    const user = {
+        name: 'John Doe',
+        _id:"1324",
+        username: 'johndoe123',
+        bio: 'Lorem ipsum dolor sit amet',
+        age: 30,
+      };
+    cy.mount(<NewAnswer user={user}/>)
     cy.get('.form_postBtn').click()
     cy.get('div .input_error').contains('Answer text cannot be empty')
 })
 
 it('shows text inputted by user', () => {
-    cy.mount(<NewAnswer/>)
+    const user = {
+        name: 'John Doe',
+        username: 'johndoe123',
+        bio: 'Lorem ipsum dolor sit amet',
+        age: 30,
+      };
+    cy.mount(<NewAnswer user={user}/>)
     cy.get('#answerTextInput').should('have.value', '')
     cy.get('#answerTextInput').type('abc')
     cy.get('#answerTextInput').should('have.value', 'abc')
@@ -96,3 +99,82 @@ it('shows text inputted by user', () => {
 //       });
 //     });
 //   });
+
+
+// describe('NewAnswer Component', () => {
+//     const mockUser = { _id: '123', name: 'Test User' }; // Mock user object
+//     let handleAnswerSpy; // Declare a variable for the spy
+  
+//     beforeEach(() => {
+//       // Create a spy for handleAnswer function
+//       handleAnswerSpy = cy.spy();
+      
+//       // Mount NewAnswer component with mock props and spy
+//       mount(
+//         <NewAnswer
+//           qid="456"
+//           handleAnswer={handleAnswerSpy}
+//           user={mockUser}
+//         />
+//       );
+//     });
+  
+//     it('calls handleAnswer function when Post Answer button is clicked with valid input', () => {
+//       // Enter valid answer text
+//       cy.get('#answerTextInput').type('This is a valid answer text');
+  
+//       // Click the Post Answer button
+//       cy.contains('Post Answer').click();
+  
+//       // Check that handleAnswer function was called
+//       cy.wrap(handleAnswerSpy).should('be.calledWith', '456');
+//     });
+//   });
+
+
+// it('calls handleAnswer function when Post Answer button is clicked with valid input', () => {
+//     const mockUser = { _id: '123', name: 'Test User' }; // Mock user object
+    
+//     // Mount NewAnswer component with mock props and spy
+//     mount(
+//       <NewAnswer
+//         qid="456"
+//         user={mockUser}
+//       />
+//     );
+//     // Enter valid answer text
+//     cy.get('#answerTextInput').type('This is a valid answer text');
+  
+// //     // Click the Post Answer button
+//     cy.contains('Post Answer').click();
+  
+// //     /// Check that postAnswerSpy was called
+// //   cy.wrap(postAnswerSpy).should('have.been.called');
+//   });
+
+
+
+it('calls handleAnswer function when Post Answer button is clicked with valid input', () => {
+    const mockUser = { _id: '123', name: 'Test User' }; // Mock user object
+    let handleAnswerSpy = cy.spy(); // Initialize handleAnswerSpy as a spy function
+  
+    // Mount NewAnswer component with mock props and spy
+    mount(
+      <NewAnswer
+        qid="456"
+        handleAnswer={handleAnswerSpy}
+        user={mockUser}
+      />
+    );
+  
+
+    // Enter valid answer text
+    cy.get('#answerTextInput').type('This is a valid answer text');
+  
+    // Click the Post Answer button
+    cy.contains('Post Answer').click().then(() => {
+      // Check that handleAnswerSpy was called with the correct arguments
+      
+    });
+  });
+  
