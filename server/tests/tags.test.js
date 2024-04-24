@@ -25,7 +25,7 @@ describe('GET /getTagsWithQuestionNumber', () => {
         server = require("../server");
     })
     afterEach(async() => {
-        server.close();
+        await server.close();
         await mongoose.disconnect()
     });
 
@@ -49,5 +49,19 @@ describe('GET /getTagsWithQuestionNumber', () => {
         ]);
         expect(Tag.find).toHaveBeenCalled();
         expect(Question.find).toHaveBeenCalled();
+  });
+
+  test("invoking the catch block (status : 500)", async() =>{
+
+    const mockError = new Error('Database error');
+
+    // Mock the Tag.find method to throw an error
+    jest.spyOn(Tag, 'find').mockRejectedValue(mockError);
+
+    const response = await supertest(server).get('/tag/getTagsWithQuestionNumber');
+
+    expect(response.status).toBe(500);
+    jest.restoreAllMocks();
+
   });
 });

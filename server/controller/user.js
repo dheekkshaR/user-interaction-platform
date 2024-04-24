@@ -7,7 +7,7 @@ const router = express.Router();
 const addNewUser = async (req, res) => {
     try {
         const sentUser = req.body;
-        
+        console.log("user: ", sentUser)
         // Assuming "regular" as the default user type for registration
         const newUser = await User.create({
             name:sentUser.name,
@@ -117,6 +117,8 @@ const editUserType = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
+
+    
 };
 
 

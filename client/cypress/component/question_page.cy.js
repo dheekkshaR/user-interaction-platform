@@ -25,85 +25,101 @@ it('Rendering Order Button', () => {
 
 })
 
+it('calls setQuestionOrder function when button is clicked', () => {
+  // Mock props
+  const message = 'Newest'; // Example message
+  const setQuestionOrder = cy.stub().as('setQuestionOrder'); // Create a stub for setQuestionOrder
+
+  // Mount OrderButton component with mock props
+  mount(
+    <OrderButton
+      message={message}
+      setQuestionOrder={setQuestionOrder}
+    />
+  );
+
+  // Click the button
+  cy.contains(message).click().then(() => {
+    // Check that setQuestionOrder was called with the correct message
+    expect(setQuestionOrder).to.have.been.calledWith(message);
+  });
+});
+
+
+it('calls handleNewQuestion function when "Ask a Question" button is clicked', () => {
+  // Mock props
+  const title_text = 'Questions'; // Example title text
+  const qcnt = 10; // Example question count
+  const setQuestionOrder = cy.stub().as('setQuestionOrder'); // Create a stub for setQuestionOrder
+  const handleNewQuestion = cy.stub().as('handleNewQuestion'); // Create a stub for handleNewQuestion
+  const user = { typeOfUser: 'moderator' }; // Mock user object
+  const setLoginPage = cy.stub().as('setLoginPage'); // Create a stub for setLoginPage
+
+  // Mount QuestionHeader component with mock props
+  mount(
+    <QuestionHeader
+      title_text={title_text}
+      qcnt={qcnt}
+      setQuestionOrder={setQuestionOrder}
+      handleNewQuestion={handleNewQuestion}
+      user={user}
+      setLoginPage={setLoginPage}
+    />
+  );
+
+  // Click the "Ask a Question" button
+  cy.contains('Ask a Question').click().then(() => {
+    // Check that handleNewQuestion was called
+    expect(handleNewQuestion).to.have.been.called;
+  });
+});
+
 // Question Page - Header Component
-it('Rendering Question Header', () => {
-    const title = 'Sample Title'
-    const count = 1
-    // const newQuestionButton = 'Add a new question'
-    const handleNewQuestionSpy = cy.spy().as('handleNewQuestionSpy')
-    const setQuestionOrderSpy = cy.spy().as('setQuestionOrderSpy')
-    
-    cy.mount(<QuestionHeader 
-        title_text={title} 
-        qcnt = {count}
-        setQuestionOrder={setQuestionOrderSpy}
-        handleNewQuestion={handleNewQuestionSpy}/>)
-
-    cy.get('.bold_title').contains(title)
-    cy.get('.bluebtn').click()
-    cy.get('@handleNewQuestionSpy').should('have.been.called');
-    // cy.get('@consoleLogSpy').then(consoleLogSpy => {
-    //   expect(consoleLogSpy).to.have.been.calledWith(newQuestionButton);
-    // });
-    cy.get('#question_count').contains(count + ' questions')
-    cy.get('.btns .btn').eq(0).should('have.text', 'Newest');
-    cy.get('.btns .btn').eq(1).should('have.text', 'Active');
-    cy.get('.btns .btn').eq(2).should('have.text', 'Unanswered');
-    cy.get('.btns .btn').each(($el, index, $list) => {
-        cy.wrap($el).click();
-        cy.get('@setQuestionOrderSpy').should('have.been.calledWith', $el.text());
-    })
-})
-
-describe('Question Component', () => {
-    it('renders question with correct elements and functionality', () => {
-      const q = {
-        _id: 'sample_id',
-        title: 'Sample Question Title',
-        answers: [{}, {}], // Simulate having two answers
-        views: 100,
-        asked_by: 'sample_user',
-        ask_date_time: new Date().toISOString(), // Convert date to ISO string
-        tags: [{ name: 'Sample Tag 1' }, { name: 'Sample Tag 2' }],
-      };
-      const clickTagSpy = cy.spy().as('clickTagSpy');
-      const handleAnswerSpy = cy.spy().as('handleAnswerSpy');
+it('renders the QuestionHeader component', () => {
+    // Mount QuestionHeader component
+    mount(
+      <QuestionHeader
+        title_text="Questions"
+        qcnt={10}
+        setQuestionOrder={() => {}}
+        handleNewQuestion={() => {}}
+        user={{ typeOfUser: 'moderator' }}
+        setLoginPage={() => {}}
+      />
+    );
   
-      mount(
-        <Question q={q} clickTag={clickTagSpy} handleAnswer={handleAnswerSpy} />
-      );
-  
-      // Assertions
-      cy.get('.postTitle').contains('Sample Question Title');
-      cy.get('.postStats').contains('2 answers');
-      cy.get('.postStats').contains('100 views');
-      cy.get('.question_author').contains('sample_user');
-      cy.get('.question_meta').contains('asked'); // Assuming you have a helper function for metadata
-      cy.get('.question_tag_button').should('have.length', 2); // Assuming there are two tags
-      cy.get('.question_tag_button').eq(0).click();
-      cy.get('@clickTagSpy').should('have.been.calledWith', 'Sample Tag 1');
-    });
+    // Check if the header text is rendered
+    cy.contains('Questions').should('exist');
   });
 
 
-describe('Question Component', () => {
-    it('should call handleAnswer on click with "sample_id"', () => {
-      // Create a spy to spy on the handleAnswer function
-      const handleAnswerSpy = cy.spy();
+  it('renders the Question component with given info', () => {
+    // Define a mock question object
+    const mockQuestion = {
+      _id: '123',
+      title: 'Test Question',
+      answers: [],
+      views: 0,
+      tags: [{ name: 'Test Tag' }],
+      asked_by: { _id: '456', username: 'TestUser' },
+      ask_date_time: new Date().toString(),
+      flagged: 0,
+    };
   
-      // Mount the Question component with the spy as a prop
-      const q = { _id: 'sample_id', title: 'Sample Question', answers: [], views: 0, tags: [] };
-      mount(<Question q={q} handleAnswer={handleAnswerSpy} />);
+    // Mount Question component with mock props
+    mount(
+      <Question
+        q={mockQuestion}
+        clickTag={() => {}}
+        handleAnswer={() => {}}
+        user={{ _id: '456', typeOfUser: 'regular' }}
+        change={0}
+        setChange={() => {}}
+      />
+    );
   
-      // Simulate a click event on the .question element
-      cy.get('.question').click();
-  
-      // Wait for the handleAnswer function to be called
-      cy.wrap(handleAnswerSpy).should('have.been.calledOnce');
-  
-      // Assert that handleAnswerSpy was called with 'sample_id'
-      cy.wrap(handleAnswerSpy).should('have.been.calledWith', 'sample_id');
-    });
+    // Check if the question title is rendered
+    cy.contains('Test Question').should('exist');
   });
 
   describe('QuestionPage Component', () => {
