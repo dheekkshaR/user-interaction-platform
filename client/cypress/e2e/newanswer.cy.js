@@ -1,19 +1,31 @@
-// describe('New Answer Page 1', () => {
-//     it('Create new answer should be displayed at the top of the answers page', () => {
-//         const answers = ["Test Answer 1", "React Router is mostly a wrapper around the history library. history handles interaction with the browser's window.history for you with its browser and hash histories. It also provides a memory history which is useful for environments that don't have a global history. This is particularly useful in mobile app development (react-native) and unit testing with Node.", "On my end, I like to have a single history object that I can carry even outside components. I like to have a single history.js file that I import on demand, and just manipulate it. You just have to change BrowserRouter to Router, and specify the history prop. This doesn't change anything for you, except that you have your own history object that you can manipulate as you want. You need to install history, the library used by react-router."];
-//         cy.visit('http://localhost:3000');
-//         cy.contains('Programmatically navigate using React router').click();
-//         cy.contains('Answer Question').click();
-//         cy.get('#answerUsernameInput').type('joym');
-//         cy.get('#answerTextInput').type(answers[0]);
-//         cy.contains('Post Answer').click();
-//         cy.get('.answerText').each(($el, index) => {
-//             cy.wrap($el).should('contain', answers[index]);
-//         });
-//         cy.contains('joym');
-//         cy.contains('0 seconds ago');
-//     });
-// });
+describe('New Answer Page 1', () => {
+    beforeEach(() =>{
+        cy.exec("node ../server/populate_db.js mongodb://127.0.0.1:27017/fake_so");
+        cy.visit('http://localhost:3000');
+        cy.contains('Ask a Question').click();
+        cy.get('#username').type('alice123');
+        cy.get('#password').type('password123');
+        cy.contains('button','Login').click();
+    })
+
+    afterEach(() => {
+        cy.exec("node ../server/remove_db.js mongodb://127.0.0.1:27017/fake_so");
+      });
+      
+    it('Create new answer should be displayed at the top of the answers page', () => {
+        const answers = ["Test Answer 1", "React Router is mostly a wrapper around the history library. history handles interaction with the browser's window.history for you with its browser and hash histories. It also provides a memory history which is useful for environments that don't have a global history. This is particularly useful in mobile app development (react-native) and unit testing with Node.", "On my end, I like to have a single history object that I can carry even outside components. I like to have a single history.js file that I import on demand, and just manipulate it. You just have to change BrowserRouter to Router, and specify the history prop. This doesn't change anything for you, except that you have your own history object that you can manipulate as you want. You need to install history, the library used by react-router."];
+        cy.visit('http://localhost:3000');
+        cy.contains('Programmatically navigate using React router').click();
+        cy.contains('Answer Question').click();
+        cy.get('#answerUsernameInput').type('joym');
+        cy.get('#answerTextInput').type(answers[0]);
+        cy.contains('Post Answer').click();
+        cy.get('.answerText').each(($el, index) => {
+            cy.wrap($el).should('contain', answers[index]);
+        });
+        cy.contains('0 seconds ago');
+    });
+});
 
 // describe('New Answer Page 2', () => {
 //     it('Username is mandatory when creating a new answer', () => {
