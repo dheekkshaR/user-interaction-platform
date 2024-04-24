@@ -84,14 +84,6 @@ const getQuestionById = async (req, res) => {
         res.status(200).json(question);
     } catch (error) {
         console.log("by id error"+ error);
-        //res.status(500).json({ error: "Database error", message: "Database error" }); 
-        //res.status(500).json({ error: "Database error" });
-        //res.status(500).json({ message: "Database error" });
-        // if (error.message === 'Database error') {
-        //     res.status(500).json({ error: 'Database error' });
-        // } else {
-        //     res.status(500).json({ message: "Internal server error" });
-        // }
     }
 
 
