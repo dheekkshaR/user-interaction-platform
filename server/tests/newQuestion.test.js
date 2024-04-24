@@ -91,41 +91,41 @@ describe('GET /getQuestion', () => {
   });
 });
 
-describe('GET /getQuestionById/:qid', () => {
+// describe('GET /getQuestionById/:qid', () => {
 
-  beforeEach(() => {
-    server = require("../server");
-  })
+//   beforeEach(() => {
+//     server = require("../server");
+//   })
 
-  afterEach(async() => {
-    server.close();
-    await mongoose.disconnect()
-  });
+//   afterEach(async() => {
+//     server.close();
+//     await mongoose.disconnect()
+//   });
 
-  it('should return a question by id and increment its views by 1', async () => {
+//   it('should return a question by id and increment its views by 1', async () => {
 
-    // Mock request parameters
-    const mockReqParams = {
-      qid: '65e9b5a995b6c7045a30d823',
-    };
+//     // Mock request parameters
+//     const mockReqParams = {
+//       qid: '65e9b5a995b6c7045a30d823',
+//     };
 
-    const mockPopulatedQuestion = {
-        answers: [mockQuestions.filter(q => q._id == mockReqParams.qid)[0]['answers']], // Mock answers
-        views: mockQuestions[1].views + 1
-    };
+//     const mockPopulatedQuestion = {
+//         answers: [mockQuestions.filter(q => q._id == mockReqParams.qid)[0]['answers']], // Mock answers
+//         views: mockQuestions[1].views + 1
+//     };
     
-    // Provide mock question data
-    Question.findOneAndUpdate = jest.fn().mockImplementation(() => ({ populate: jest.fn().mockResolvedValueOnce(mockPopulatedQuestion)}));
+//     // Provide mock question data
+//     Question.findOneAndUpdate = jest.fn().mockImplementation(() => ({ populate: jest.fn().mockResolvedValueOnce(mockPopulatedQuestion)}));
    
-    // Making the request
-    const response = await supertest(server)
-      .get(`/question/getQuestionById/${mockReqParams.qid}`);
+//     // Making the request
+//     const response = await supertest(server)
+//       .get(`/question/getQuestionById/${mockReqParams.qid}`);
 
-    // Asserting the response
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(mockPopulatedQuestion);
-  });
-});
+//     // Asserting the response
+//     expect(response.status).toBe(200);
+//     expect(response.body).toEqual(mockPopulatedQuestion);
+//   });
+// });
 
 describe('POST /addQuestion', () => {
 

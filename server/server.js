@@ -54,7 +54,7 @@ app.use("/tag", tagController);
 app.use("/answer", answerController);
 app.use("/user", userController);
 
-let server = app.listen(port, () => {
+let server = app.listen(0, () => {
     console.log(`Server starts at http://localhost:${port}`);
 });
 
